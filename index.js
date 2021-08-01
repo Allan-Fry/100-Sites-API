@@ -1,11 +1,33 @@
 const express = require("express");
+const port = 3000;
 const app = express();
-let port =process.env.PORT || 3000;
 
-app.get("/", (req, res) =>{
-    res.send("Hello World")
-})
+app.use(
+    express.json()
+);
 
-app.listen(port, () => {
-    console.log(`Example app is listening on port http://localhost:${port}`);
+app.use(
+    express.urlencoded(
+        { 
+            extend: true 
+        }
+    )
+);
+
+app.get ('/', (req, res) => 
+        {
+            res.json(
+                {
+                    message: "Hellow World"
+                }
+            );
+        }
+);
+
+require("./routes/authors.routes.js")(app);
+
+app.listen(port, () =>{
+    console.log(
+        `Server is running on localhost:${port}`
+    )
 });
